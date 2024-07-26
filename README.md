@@ -1,6 +1,6 @@
 # Simple RAG Template
 
-This is a notebook starter for an easy and quick Retrieval-Augmented Generation (RAG) system.
+This is a starter repo for an easy and quick Retrieval-Augmented Generation (RAG) system.
 
 ## Purpose
 
