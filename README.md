@@ -1,28 +1,68 @@
-# Purpose
+# Simple RAG Template
 
-This a template of an easy and quick small RAG. 
+This is a notebook starter for an easy and quick Retrieval-Augmented Generation (RAG) system.
 
-This app it uses streamlit for the front. 
+## Purpose
+
+This application demonstrates a basic implementation of a RAG system, which combines the power of large language models with a custom knowledge base. It uses Streamlit for the frontend interface.
+
+## How it Works
+
+A Jupyter Notebook is available `rag_tutorial.ipynb`
+
+### Requirements
+
+- Python 3.7+
+- Create a new virtual environment
+- Install the required Python libraries:
+  ```
+  pip install -r requirements.txt
+  ```
+- Add your OpenAI API key to the environment variable: `OPENAI_API_KEY`
 
 
-## How it works
+### Create a Vector Database
 
-### Requirements 
+Run `loader.py` to create the Vector Database and vectorize your PDF documents:
 
-- Install the python libraries inside a new env.
-
-- Add OpenAI token to the env variable : `OPENAI_API_KEY`
-
-### Create a VectorDB
-
-Run `loader.py` to create the VectorDB and vectorize your PDFs : 
-```python
+```bash
 python loader.py
 ```
 
-It will create a ChromaDB : https://docs.trychroma.com/
+This script will create a ChromaDB instance, which is an open-source embedding database. For more information, visit: https://docs.trychroma.com/
 
-### Run the App
+### Run the Application
 
-######################################################################
+To start the Streamlit app, run:
 
+```bash
+streamlit run app.py
+```
+
+## Features
+
+- PDF document ingestion and vectorization
+- Natural language querying of the knowledge base
+- Integration with OpenAI's language models for response generation
+
+## Customization
+
+You can customize this template by:
+- Adding more document types for ingestion
+- Implementing different embedding models
+- Enhancing the user interface with additional Streamlit components
+
+## Limitations
+
+- Currently only supports PDF documents
+- Requires an OpenAI API key
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+[Specify your license here, e.g., MIT, Apache 2.0, etc.]
+
+Would you like me to explain or elaborate on any part of this README?
