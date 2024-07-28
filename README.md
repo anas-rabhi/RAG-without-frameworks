@@ -58,4 +58,4 @@ You can customize this template by:
 - Requires an OpenAI API key
 
 
-Readme.md written by Claude 3.5 and checked by myself.
+This readme was written by Claude 3.5 and checked by me.
