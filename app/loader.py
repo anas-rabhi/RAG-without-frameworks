@@ -1,37 +1,40 @@
 import os
 import chromadb
 from chromadb.config import Settings
+import re
 from PyPDF2 import PdfReader
-import openai
+from openai import OpenAI
 
-# Initialize Chroma client
+client = OpenAI()
+
+# Initialize Chroma client : Persistent client to save this DB into the Disk. 
 chroma_client = chromadb.PersistentClient(
     path="./chroma_db"
 )
 
-# Create or get a collection
-collection = chroma_client.get_or_create_collection("pdf_collection")
-
-# Set up OpenAI API (make sure to set your API key as an environment variable)
-openai.api_key = os.getenv("OPENAI_API_KEY")
+# Create a collection 
+collection = chroma_client.create_collection("pdf_collection")
 
 def extract_text_from_pdf(pdf_path):
     """
-    Extract all the text from a PDF
+    Extract all the text from a PDF file.
     """
     with open(pdf_path, 'rb') as file:
         reader = PdfReader(file)
         text = ""
+        # Iterate through all pages and extract text
         for page in reader.pages:
             text += page.extract_text()
     return text
 
 def split_text_into_chunks(text, words_per_chunk=500, overlap=50):
     """
-    Split PDFs into smaller chunks => for a better embedding 
+    Split text into smaller chunks for better embedding.
     """
+    # Split text into words
     words = re.findall(r'\S+', text)
     chunks = []
+    # Create overlapping chunks
     for i in range(0, len(words), words_per_chunk - overlap):
         chunk = ' '.join(words[i:i + words_per_chunk])
         chunks.append(chunk)
@@ -39,13 +42,16 @@ def split_text_into_chunks(text, words_per_chunk=500, overlap=50):
 
 def get_embedding(text):
     """
-    Call OpenAI to create embeddings for a given text
+    Call OpenAI API to create embeddings for a given text.
     """
-    response = openai.Embedding.create(
+    # Call OpenAI API to generate embedding
+
+    response = client.embeddings.create(
         input=text,
-        model="text-embedding-ada-002"
+        model="text-embedding-3-small"
     )
-    return response['data'][0]['embedding']
+    return response.data[0].embedding
+
 
 def process_pdfs(folder_path):
     """
@@ -61,19 +67,22 @@ def process_pdfs(folder_path):
     doc_id = 0
     for filename in os.listdir(folder_path):
         if filename.endswith('.pdf'):
+            print('file: ', filename)
             pdf_path = os.path.join(folder_path, filename)
             
             # Extract text from PDF
+            print('Extract text from pdf')
             text = extract_text_from_pdf(pdf_path)
             
             # Split text into chunks
+            print('Split text')
             chunks = split_text_into_chunks(text)
-            
+            print('Chunks size : ', len(chunks))
             for i, chunk in enumerate(chunks):
                 # Create embeddings using OpenAI
                 embedding = get_embedding(chunk)
                 
-                # Add to Chroma
+                # Add to Chroma: Some of the VectorDB allow inserting batches
                 collection.add(
                     embeddings=[embedding],
                     documents=[chunk],
@@ -84,7 +93,8 @@ def process_pdfs(folder_path):
 
     print(f"Processed and added {len(collection.get()['ids'])} chunks to Chroma.")
 
+
 # Usage
-If __name__== '__main__':
+if __name__== '__main__':
     data_folder = "./data"  # Replace with your PDF folder path
     process_pdfs(data_folder)

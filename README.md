@@ -8,7 +8,7 @@ This application demonstrates a basic implementation of a RAG system, which comb
 
 ## How it Works
 
-A Jupyter Notebook is available `rag_tutorial.ipynb`
+> A Jupyter Notebook is available `rag_tutorial.ipynb` if needed.
 
 ### Requirements
 
@@ -31,9 +31,9 @@ python loader.py
 
 This script will create a ChromaDB instance, which is an open-source embedding database. For more information, visit: https://docs.trychroma.com/
 
-### Run the Application
+### Run the Application (not available)
 
-To start the Streamlit app, run:
+To start the Streamlit app, run: 
 
 ```bash
 streamlit run app.py
@@ -57,12 +57,5 @@ You can customize this template by:
 - Currently only supports PDF documents
 - Requires an OpenAI API key
 
-## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## License
-
-[Specify your license here, e.g., MIT, Apache 2.0, etc.]
-
-Would you like me to explain or elaborate on any part of this README?
+Readme.md written by Claude 3.5 and checked by myself.
