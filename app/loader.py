@@ -4,6 +4,7 @@ from chromadb.config import Settings
 import re
 from PyPDF2 import PdfReader
 from openai import OpenAI
+from utils import get_embedding
 
 client = OpenAI()
 
@@ -39,19 +40,6 @@ def split_text_into_chunks(text, words_per_chunk=500, overlap=50):
         chunk = ' '.join(words[i:i + words_per_chunk])
         chunks.append(chunk)
     return chunks
-
-def get_embedding(text):
-    """
-    Call OpenAI API to create embeddings for a given text.
-    """
-    # Call OpenAI API to generate embedding
-
-    response = client.embeddings.create(
-        input=text,
-        model="text-embedding-3-small"
-    )
-    return response.data[0].embedding
-
 
 def process_pdfs(folder_path):
     """
