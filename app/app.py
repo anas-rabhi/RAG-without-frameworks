@@ -11,14 +11,14 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-st.title("Simple chat")
+st.title("IA Toulouse")
 
 # Initialize messages list if it doesn't exist
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
 if "chatbot" not in st.session_state:
-    st.session_state.system_prompt = "You are a helpful assistant. Use the following context to answer the user's question: {context}\n\n --------"
+    st.session_state.system_prompt = "You are a helpful assistant. Use the following context to answer the user's question concisely: {context}\n\n --------"
 
     client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
     chroma_client = chromadb.PersistentClient(path="./chroma_db")

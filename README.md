@@ -26,7 +26,7 @@ This application demonstrates a basic implementation of a RAG system, which comb
 Run `loader.py` to create the Vector Database and vectorize your PDF documents:
 
 ```bash
-python loader.py
+python app/loader.py
 ```
 
 This script will create a ChromaDB instance, which is an open-source embedding database. For more information, visit: https://docs.trychroma.com/
