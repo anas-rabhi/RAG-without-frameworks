@@ -5,13 +5,18 @@ import chromadb
 from openai import OpenAI
 import os
 from utils import rag_pipeline
+# Load environment variables from .env file
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 st.title("Simple chat")
 
 if "chatbot" not in st.session_state:
     st.session_state.system_prompt = "You are a helpful assistant. Use the following context to answer the user's question: {context}\n\n --------"
 
-    client = OpenAI()
+    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
     chroma_client = chromadb.PersistentClient(path="./chroma_db")
     st.session_state.collection = chroma_client.get_collection("pdf_collection")
 

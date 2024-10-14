@@ -1,4 +1,5 @@
 chromadb
 PyPDF2
 openai
-streamlit
+streamlit==0.82.0
+python-dotenv

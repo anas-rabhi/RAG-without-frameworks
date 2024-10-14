@@ -6,6 +6,7 @@ from PyPDF2 import PdfReader
 from openai import OpenAI
 from utils import get_embedding
 
+
 client = OpenAI()
 
 # Initialize Chroma client : Persistent client to save this DB into the Disk. 
