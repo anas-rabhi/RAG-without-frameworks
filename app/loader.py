@@ -1,4 +1,5 @@
 import os
+from dotenv import load_dotenv
 import chromadb
 from chromadb.config import Settings
 import re
@@ -7,7 +8,11 @@ from openai import OpenAI
 from utils import get_embedding
 
 
-client = OpenAI()
+# Load environment variables from .env file
+load_dotenv()
+
+# Initialize OpenAI client with API key from environment variable
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # Initialize Chroma client : Persistent client to save this DB into the Disk. 
 chroma_client = chromadb.PersistentClient(

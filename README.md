@@ -36,7 +36,7 @@ This script will create a ChromaDB instance, which is an open-source embedding d
 To start the Streamlit app, run: 
 
 ```bash
-streamlit run app.py
+streamlit run app/app.py
 ```
 
 ## Features

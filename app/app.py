@@ -13,15 +13,16 @@ load_dotenv()
 
 st.title("Simple chat")
 
+# Initialize messages list if it doesn't exist
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
 if "chatbot" not in st.session_state:
     st.session_state.system_prompt = "You are a helpful assistant. Use the following context to answer the user's question: {context}\n\n --------"
 
     client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
     chroma_client = chromadb.PersistentClient(path="./chroma_db")
     st.session_state.collection = chroma_client.get_collection("pdf_collection")
-
-    st.session_state.messages = []
-
 
 # Display chat messages from history on app rerun
 for message in st.session_state.messages:
@@ -38,9 +39,15 @@ if prompt := st.chat_input("What is up?"):
 
     # Display assistant response in chat message container
     with st.chat_message("assistant"):
-        response = st.write(rag_pipeline(prompt, 
-                                         st.session_state.collection, 
-                                         st.session_state.system_prompt, 
-                                         st.session_state.messages))
+        message_placeholder = st.empty()
+        full_response = ""
+        for response in rag_pipeline(prompt, 
+                                     st.session_state.collection, 
+                                     st.session_state.system_prompt, 
+                                     st.session_state.messages):
+            full_response += response
+            message_placeholder.markdown(full_response + "▌")
+        message_placeholder.markdown(full_response)
+    
     # Add assistant response to chat history
-    st.session_state.messages.append({"role": "assistant", "content": response})
+    st.session_state.messages.append({"role": "assistant", "content": full_response})
